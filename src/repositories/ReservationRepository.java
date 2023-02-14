@@ -1,5 +1,3 @@
 package repositories;
 
-public class ReservationRepository {
-
-}
+public class ReservationRepository {}
