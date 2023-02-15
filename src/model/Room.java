@@ -29,7 +29,7 @@ public class Room implements IRoom{
 
     @Override
     public boolean isFree() {
-        return false;
+        return true;
     }
 
     @Override

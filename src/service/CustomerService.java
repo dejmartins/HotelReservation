@@ -3,7 +3,6 @@ package service;
 import model.Customer;
 import repositories.CustomerRepository;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class CustomerService {

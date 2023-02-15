@@ -1,7 +1,5 @@
 package model;
 
-import service.CustomerService;
-
 import java.util.Date;
 
 public class Reservation {
@@ -16,6 +14,22 @@ public class Reservation {
         this.room = room;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
+    }
+
+    public Customer getCustomer(){
+        return customer;
+    }
+
+    public Date getCheckInDate(){
+        return checkInDate;
+    }
+
+    public Date getCheckOutDate(){
+        return checkOutDate;
+    }
+
+    public IRoom room(){
+        return room;
     }
 
     @Override
