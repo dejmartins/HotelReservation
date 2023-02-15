@@ -1,9 +1,9 @@
-import model.Customer;
+import java.text.ParseException;
 
 public class Driver {
 
-    public static void main(String[] args) {
-        Customer customer = new Customer("Jonathan", "Martins", "j@domain.com");
-        System.out.println(customer);
+    public static void main(String[] args) throws ParseException {
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.entry();
     }
 }

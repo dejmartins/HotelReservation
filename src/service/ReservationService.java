@@ -14,7 +14,6 @@ import java.util.Date;
 
 public class ReservationService {
 
-    private final Collection<Reservation> reservations = new ArrayList<>();
     private final RoomRepository roomRepository = RoomRepository.getRoomRepository();
     private final ReservationRepository reservationRepository = ReservationRepository.getReservationRepository();
     private static final ReservationService RESERVATION_SERVICE = new ReservationService();
@@ -31,7 +30,9 @@ public class ReservationService {
     }
 
     public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
-        return null;
+        Reservation reservation = new Reservation(customer, room, checkInDate, checkOutDate);
+        reservationRepository.createReservation(reservation);
+        return reservation;
     }
 
     public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate){
@@ -47,13 +48,13 @@ public class ReservationService {
         Collection<IRoom> bookedRooms = new ArrayList<>();
         Collection<IRoom> allRooms = roomRepository.retrieveAllRooms();
 
-        reservations.forEach((reservation) -> bookedRooms.add(reservation.room()));
+        reservationRepository.getAllReservations().forEach((reservation) -> bookedRooms.add(reservation.room()));
 
         for(IRoom room : allRooms){
             if(!bookedRooms.contains(room)) availableRooms.add(room);
         }
 
-        reservations.stream().filter((reservation) ->
+        reservationRepository.getAllReservations().stream().filter((reservation) ->
                 reservation.getCheckOutDate().before(checkInDate)
                         || checkOutDate.before(reservation.getCheckInDate()))
                 .forEach((reservation) -> availableRooms.add(reservation.room()));
@@ -66,7 +67,7 @@ public class ReservationService {
     }
 
     public void printAllReservation(){
-        System.out.println(reservations.stream().toList());
+        System.out.println(reservationRepository.getAllReservations().stream().toList());
     }
 
     public static ReservationService getReservationService(){
