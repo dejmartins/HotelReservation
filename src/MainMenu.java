@@ -1,4 +1,3 @@
-import model.Customer;
 import model.IRoom;
 import service.CustomerService;
 import service.ReservationService;
@@ -12,6 +11,7 @@ public class MainMenu {
     Scanner scanner = new Scanner(System.in);
     CustomerService customerService = CustomerService.getCustomerService();
     ReservationService reservationService = ReservationService.getReservationService();
+    AdminMenu menu = new AdminMenu();
 
     public int mainMenu(){
         System.out.println("""
@@ -32,6 +32,7 @@ public class MainMenu {
             case 1 -> findAndReserveARoom();
             case 2 -> seeMyReservations();
             case 3 -> createAnAccount();
+            case 4 -> menu.adminMenu();
         }
     }
 
@@ -54,7 +55,7 @@ public class MainMenu {
         reservationService.getCustomerReservation(customerService.getCustomer(emailAddress));
     }
 
-    public void createAnAccount(){
+    public void createAnAccount() throws ParseException {
         System.out.print("Email: ");
         String email = scanner.next();
         System.out.print("FirstName: ");
@@ -62,6 +63,9 @@ public class MainMenu {
         System.out.print("LastName: ");
         String lastName = scanner.next();
         customerService.addCustomer(email, firstName, lastName);
+        System.out.println("Account Created!");
+        entry();
     }
+
 
 }

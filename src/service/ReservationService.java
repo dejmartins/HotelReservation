@@ -61,6 +61,10 @@ public class ReservationService {
         return availableRooms;
     }
 
+    public Collection<IRoom> findAllRooms(){
+        return roomRepository.retrieveAllRooms();
+    }
+
     public Collection<Reservation> getCustomerReservation(Customer customer){
         return reservationRepository.retrieveCustomerReservation(customer);
     }
