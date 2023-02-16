@@ -7,7 +7,6 @@ import repositories.ReservationRepository;
 import repositories.RoomRepository;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -63,7 +62,7 @@ public class ReservationService {
     }
 
     public Collection<Reservation> getCustomerReservation(Customer customer){
-        return reservationRepository.retrieveCustomerReservation(customer.getEmail());
+        return reservationRepository.retrieveCustomerReservation(customer);
     }
 
     public void printAllReservation(){

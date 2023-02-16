@@ -1,5 +1,6 @@
 package repositories;
 
+import model.Customer;
 import model.IRoom;
 import model.Reservation;
 
@@ -26,8 +27,8 @@ public class ReservationRepository {
         allReservations.add(reservation);
     }
 
-    public Collection<Reservation> retrieveCustomerReservation(String emailAddress){
-        return reservations.get(emailAddress);
+    public Collection<Reservation> retrieveCustomerReservation(Customer customer){
+        return reservations.get(customer.getEmail());
     }
 
     public Collection<Reservation> getAllReservations(){

@@ -1,3 +1,4 @@
+import model.Customer;
 import model.IRoom;
 import service.CustomerService;
 import service.ReservationService;
@@ -30,6 +31,7 @@ public class MainMenu {
         switch (action){
             case 1 -> findAndReserveARoom();
             case 2 -> seeMyReservations();
+            case 3 -> createAnAccount();
         }
     }
 
@@ -50,6 +52,16 @@ public class MainMenu {
         System.out.print("Enter email address: ");
         String emailAddress = scanner.next();
         reservationService.getCustomerReservation(customerService.getCustomer(emailAddress));
+    }
+
+    public void createAnAccount(){
+        System.out.print("Email: ");
+        String email = scanner.next();
+        System.out.print("FirstName: ");
+        String firstName = scanner.next();
+        System.out.print("LastName: ");
+        String lastName = scanner.next();
+        customerService.addCustomer(email, firstName, lastName);
     }
 
 }
