@@ -16,7 +16,6 @@ public class MainMenu {
     public int mainMenu(){
         System.out.println("""
                 1. Find and reserve a room
-                    Date Format -> dd/mm/yyyy
                 2. See my reservations
                 3. Create an account
                 4. Admin
@@ -32,18 +31,22 @@ public class MainMenu {
             case 1 -> findAndReserveARoom();
             case 2 -> seeMyReservations();
             case 3 -> createAnAccount();
-            case 4 -> menu.adminMenu();
+            case 4 -> menu.entry();
+            case 5 -> System.exit(0);
         }
     }
 
     public void findAndReserveARoom() throws ParseException {
-        System.out.print("Check-in Date: ");
+        System.out.print("Check-in Date(dd/mm/yyyy): ");
         String checkIn = scanner.next();
-        System.out.print("Check-out Date: ");
+        System.out.print("Check-out Date(dd/mm/yyyy): ");
         String checkOut = scanner.next();
 
         Collection<IRoom> freeRooms = reservationService.findRooms(new SimpleDateFormat("dd/MM/yyyy").parse(checkIn),
                 new SimpleDateFormat("dd/MM/yyyy").parse(checkOut));
+
+        if (freeRooms.size() == 0) System.out.println("\nNo rooms Available!");
+
         for (IRoom room : freeRooms){
             System.out.println(room);
         }

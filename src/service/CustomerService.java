@@ -14,8 +14,12 @@ public class CustomerService {
     }
 
     public void addCustomer(String email, String firstName, String lastName){
-        Customer customer = new Customer(firstName, lastName, email);
-        customerRepository.createCustomer(email, customer);
+        try{
+            Customer customer = new Customer(firstName, lastName, email);
+            customerRepository.createCustomer(email, customer);
+        } catch (Exception e) {
+            System.out.println("\nInvalid Email Address. Try again!\n\n");
+        }
     }
 
     public Customer getCustomer(String customerEmail){

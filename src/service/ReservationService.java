@@ -66,7 +66,12 @@ public class ReservationService {
     }
 
     public Collection<Reservation> getCustomerReservation(Customer customer){
-        return reservationRepository.retrieveCustomerReservation(customer);
+        try{
+            return reservationRepository.retrieveCustomerReservation(customer);
+        } catch (Exception e) {
+            System.out.println("No reservations have been made");
+        }
+        return null;
     }
 
     public void printAllReservation(){

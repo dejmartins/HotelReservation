@@ -32,6 +32,9 @@ public class ReservationRepository {
     }
 
     public Collection<Reservation> getAllReservations(){
+        if (reservations.isEmpty()){
+            System.out.println("No reservations made");
+        }
         return allReservations;
     }
 

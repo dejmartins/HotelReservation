@@ -51,12 +51,22 @@ public class AdminMenu {
     }
 
     private void seeAllRooms() {
+        if(reservationService.findAllRooms().size() == 0){
+            System.out.println("No rooms available");
+            return;
+        }
+
         for (IRoom room : reservationService.findAllRooms()){
             System.out.println(room);
         }
     }
 
     public void seeAllCustomers(){
+        if(customerService.getAllCustomers().size() == 0){
+            System.out.println("No customers on platform");
+            return;
+        }
+
         for (Customer customer : customerService.getAllCustomers()){
             System.out.println(customer);
         }
