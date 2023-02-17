@@ -1,6 +1,5 @@
+import api.HotelResource;
 import model.IRoom;
-import service.CustomerService;
-import service.ReservationService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,8 +8,7 @@ import java.util.Scanner;
 
 public class MainMenu {
     Scanner scanner = new Scanner(System.in);
-    CustomerService customerService = CustomerService.getCustomerService();
-    ReservationService reservationService = ReservationService.getReservationService();
+    HotelResource hotelResource = HotelResource.getHotelResource();
     AdminMenu menu = new AdminMenu();
 
     public int mainMenu(){
@@ -42,7 +40,7 @@ public class MainMenu {
         System.out.print("Check-out Date(dd/mm/yyyy): ");
         String checkOut = scanner.next();
 
-        Collection<IRoom> freeRooms = reservationService.findRooms(new SimpleDateFormat("dd/MM/yyyy").parse(checkIn),
+        Collection<IRoom> freeRooms = hotelResource.findARoom(new SimpleDateFormat("dd/MM/yyyy").parse(checkIn),
                 new SimpleDateFormat("dd/MM/yyyy").parse(checkOut));
 
         if (freeRooms.size() == 0) System.out.println("\nNo rooms Available!");
@@ -50,12 +48,14 @@ public class MainMenu {
         for (IRoom room : freeRooms){
             System.out.println(room);
         }
+
+//        TODO: Reserve Room
     }
 
     public void seeMyReservations(){
         System.out.print("Enter email address: ");
         String emailAddress = scanner.next();
-        reservationService.getCustomerReservation(customerService.getCustomer(emailAddress));
+        hotelResource.getCustomerReservation(emailAddress);
     }
 
     public void createAnAccount() throws ParseException {
@@ -65,10 +65,9 @@ public class MainMenu {
         String firstName = scanner.next();
         System.out.print("LastName: ");
         String lastName = scanner.next();
-        customerService.addCustomer(email, firstName, lastName);
+        hotelResource.createACustomer(email, firstName, lastName);
         System.out.println("Account Created!");
         entry();
     }
-
 
 }

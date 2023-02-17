@@ -1,7 +1,9 @@
 import api.AdminResource;
-import model.*;
-import service.CustomerService;
-import service.ReservationService;
+import api.HotelResource;
+import model.Customer;
+import model.IRoom;
+import model.Room;
+import model.RoomType;
 
 import java.text.ParseException;
 import java.util.Scanner;
@@ -10,6 +12,7 @@ public class AdminMenu {
 
     Scanner scanner = new Scanner(System.in);
     AdminResource adminResource = AdminResource.getAdminResource();
+    MainMenu mainMenu = new MainMenu();
 
     public int adminMenu(){
         System.out.println("""
@@ -30,6 +33,7 @@ public class AdminMenu {
             case 2 -> seeAllRooms();
             case 3 -> seeAllReservations();
             case 4 -> addARoom();
+            case 5 -> mainMenu.entry();
         }
     }
 
