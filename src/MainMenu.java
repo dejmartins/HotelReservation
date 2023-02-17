@@ -1,15 +1,18 @@
 import api.HotelResource;
+import model.Customer;
 import model.IRoom;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainMenu {
     Scanner scanner = new Scanner(System.in);
     HotelResource hotelResource = HotelResource.getHotelResource();
     AdminMenu menu = new AdminMenu();
+    Customer currentCustomer;
 
     public int mainMenu(){
         System.out.println("""
@@ -40,22 +43,29 @@ public class MainMenu {
         System.out.print("Check-out Date(dd/mm/yyyy): ");
         String checkOut = scanner.next();
 
-        Collection<IRoom> freeRooms = hotelResource.findARoom(new SimpleDateFormat("dd/MM/yyyy").parse(checkIn),
-                new SimpleDateFormat("dd/MM/yyyy").parse(checkOut));
+        List<IRoom> freeRooms = hotelResource.findARoom(new SimpleDateFormat("dd/MM/yyyy").parse(checkIn),
+                new SimpleDateFormat("dd/MM/yyyy").parse(checkOut)).stream().toList();
 
-        if (freeRooms.size() == 0) System.out.println("\nNo rooms Available!");
-
-        for (IRoom room : freeRooms){
-            System.out.println(room);
+        if (freeRooms.size() == 0) {
+            System.out.println("\nNo rooms Available!");
+            return;
         }
 
-//        TODO: Reserve Room
+        for (int i = 1; i <= freeRooms.size(); i++){
+            System.out.println(i + "" + freeRooms.get(i - 1));
+        }
+
+        System.out.println("To reserve a room, enter the number");
+        int selectedRoom = scanner.nextInt();
+
+        hotelResource.bookARoom(currentCustomer.getEmail(),
+                freeRooms.get(selectedRoom - 1),
+                new SimpleDateFormat("dd/MM/yyyy").parse(checkIn),
+                new SimpleDateFormat("dd/MM/yyyy").parse(checkOut));
     }
 
     public void seeMyReservations(){
-        System.out.print("Enter email address: ");
-        String emailAddress = scanner.next();
-        hotelResource.getCustomerReservation(emailAddress);
+        hotelResource.getCustomerReservation(currentCustomer.getEmail());
     }
 
     public void createAnAccount() throws ParseException {
@@ -66,6 +76,7 @@ public class MainMenu {
         System.out.print("LastName: ");
         String lastName = scanner.next();
         hotelResource.createACustomer(email, firstName, lastName);
+        currentCustomer = new Customer(email, firstName, lastName);
         System.out.println("Account Created!");
         entry();
     }
