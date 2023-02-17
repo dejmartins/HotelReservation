@@ -1,3 +1,4 @@
+import api.AdminResource;
 import model.*;
 import service.CustomerService;
 import service.ReservationService;
@@ -8,8 +9,7 @@ import java.util.Scanner;
 public class AdminMenu {
 
     Scanner scanner = new Scanner(System.in);
-    CustomerService customerService = CustomerService.getCustomerService();
-    ReservationService reservationService = ReservationService.getReservationService();
+    AdminResource adminResource = AdminResource.getAdminResource();
 
     public int adminMenu(){
         System.out.println("""
@@ -41,33 +41,33 @@ public class AdminMenu {
         System.out.print("RoomType: ");
         String roomType = scanner.next();
         IRoom room = new Room(roomNumber, price, RoomType.SINGLE);
-        reservationService.addRoom(room);
+        adminResource.addRoom(room);
         System.out.println("Account Created!");
         entry();
     }
 
     private void seeAllReservations() {
-        reservationService.printAllReservation();
+        adminResource.displayAllReservations();
     }
 
     private void seeAllRooms() {
-        if(reservationService.findAllRooms().size() == 0){
+        if(adminResource.getAllRooms().size() == 0){
             System.out.println("No rooms available");
             return;
         }
 
-        for (IRoom room : reservationService.findAllRooms()){
+        for (IRoom room : adminResource.getAllRooms()){
             System.out.println(room);
         }
     }
 
     public void seeAllCustomers(){
-        if(customerService.getAllCustomers().size() == 0){
+        if(adminResource.getAllCustomers().size() == 0){
             System.out.println("No customers on platform");
             return;
         }
 
-        for (Customer customer : customerService.getAllCustomers()){
+        for (Customer customer : adminResource.getAllCustomers()){
             System.out.println(customer);
         }
     }
