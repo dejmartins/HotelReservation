@@ -1,5 +1,4 @@
 import api.AdminResource;
-import api.HotelResource;
 import model.Customer;
 import model.IRoom;
 import model.Room;
@@ -43,8 +42,7 @@ public class AdminMenu {
         Double price = scanner.nextDouble();
         System.out.print("RoomType: ");
         String roomType = scanner.next();
-//        TODO: Handle Enum
-        IRoom room = new Room(roomNumber, price, RoomType.SINGLE);
+        IRoom room = new Room(roomNumber, price, RoomType.stringToRoomType(roomType));
         adminResource.addRoom(room);
         System.out.println("Account Created!");
         entry();
