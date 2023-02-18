@@ -12,7 +12,6 @@ public class AdminMenu {
 
     Scanner scanner = new Scanner(System.in);
     AdminResource adminResource = AdminResource.getAdminResource();
-    MainMenu mainMenu = new MainMenu();
 
     public int adminMenu(){
         System.out.println("""
@@ -33,7 +32,7 @@ public class AdminMenu {
             case 2 -> seeAllRooms();
             case 3 -> seeAllReservations();
             case 4 -> addARoom();
-            case 5 -> mainMenu.entry();
+            case 5 -> MainMenu.entry();
         }
     }
 
@@ -44,6 +43,7 @@ public class AdminMenu {
         Double price = scanner.nextDouble();
         System.out.print("RoomType: ");
         String roomType = scanner.next();
+//        TODO: Handle Enum
         IRoom room = new Room(roomNumber, price, RoomType.SINGLE);
         adminResource.addRoom(room);
         System.out.println("Account Created!");

@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MainMenu {
-    Scanner scanner = new Scanner(System.in);
-    HotelResource hotelResource = HotelResource.getHotelResource();
-    AdminMenu menu = new AdminMenu();
-    Customer currentCustomer;
+    static Scanner scanner = new Scanner(System.in);
+    static HotelResource hotelResource = HotelResource.getHotelResource();
+    static AdminMenu menu = new AdminMenu();
+    static Customer currentCustomer;
 
-    public int mainMenu(){
+    public static int mainMenu(){
         System.out.println("""
                 1. Find and reserve a room
                 2. See my reservations
@@ -26,7 +26,7 @@ public class MainMenu {
         return scanner.nextInt();
     }
 
-    public void entry() throws ParseException {
+    public static void entry() throws ParseException {
         int action = mainMenu();
         switch (action){
             case 1 -> findAndReserveARoom();
@@ -37,7 +37,7 @@ public class MainMenu {
         }
     }
 
-    public void findAndReserveARoom() throws ParseException {
+    public static void findAndReserveARoom() throws ParseException {
         System.out.print("Check-in Date(dd/mm/yyyy): ");
         String checkIn = scanner.next();
         System.out.print("Check-out Date(dd/mm/yyyy): ");
@@ -64,11 +64,11 @@ public class MainMenu {
                 new SimpleDateFormat("dd/MM/yyyy").parse(checkOut));
     }
 
-    public void seeMyReservations(){
+    public static void seeMyReservations(){
         hotelResource.getCustomerReservation(currentCustomer.getEmail());
     }
 
-    public void createAnAccount() throws ParseException {
+    public static void createAnAccount() throws ParseException {
         System.out.print("Email: ");
         String email = scanner.next();
         System.out.print("FirstName: ");
