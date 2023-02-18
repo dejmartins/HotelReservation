@@ -4,7 +4,9 @@ import model.IRoom;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,6 +36,7 @@ public class MainMenu {
             case 3 -> createAnAccount();
             case 4 -> menu.entry();
             case 5 -> System.exit(0);
+            default -> entry();
         }
     }
 
@@ -43,29 +46,40 @@ public class MainMenu {
         System.out.print("Check-out Date(dd/mm/yyyy): ");
         String checkOut = scanner.next();
 
-        List<IRoom> freeRooms = hotelResource.findARoom(new SimpleDateFormat("dd/MM/yyyy").parse(checkIn),
-                new SimpleDateFormat("dd/MM/yyyy").parse(checkOut)).stream().toList();
+        try{
+            List<IRoom> freeRooms = hotelResource.findARoom(new SimpleDateFormat("dd/MM/yyyy").parse(checkIn),
+                    new SimpleDateFormat("dd/MM/yyyy").parse(checkOut)).stream().toList();
 
-        if (freeRooms.size() == 0) {
-            System.out.println("\nNo rooms Available!");
-            return;
+            if (freeRooms.size() == 0) {
+                System.out.println("\nNo rooms Available!");
+                return;
+            }
+
+            for (int i = 1; i <= freeRooms.size(); i++){
+                System.out.println(i + "" + freeRooms.get(i - 1));
+            }
+
+            System.out.println("To reserve a room, enter the number");
+            int selectedRoom = scanner.nextInt();
+
+            hotelResource.bookARoom(currentCustomer.getEmail(),
+                    freeRooms.get(selectedRoom - 1),
+                    new SimpleDateFormat("dd/MM/yyyy").parse(checkIn),
+                    new SimpleDateFormat("dd/MM/yyyy").parse(checkOut));
+        } catch (ParseException e) {
+            System.out.println("\nInvalid Date Format\n\n");
+            System.out.println("Correct Format: 23/11/2030");
+            findAndReserveARoom();
         }
-
-        for (int i = 1; i <= freeRooms.size(); i++){
-            System.out.println(i + "" + freeRooms.get(i - 1));
-        }
-
-        System.out.println("To reserve a room, enter the number");
-        int selectedRoom = scanner.nextInt();
-
-        hotelResource.bookARoom(currentCustomer.getEmail(),
-                freeRooms.get(selectedRoom - 1),
-                new SimpleDateFormat("dd/MM/yyyy").parse(checkIn),
-                new SimpleDateFormat("dd/MM/yyyy").parse(checkOut));
     }
 
-    public static void seeMyReservations(){
-        hotelResource.getCustomerReservation(currentCustomer.getEmail());
+    public static void seeMyReservations() throws ParseException {
+        try {
+            hotelResource.getCustomerReservation(currentCustomer.getEmail());
+        } catch (Exception e) {
+            System.out.println("\nNo reservation has been made\n\n");
+            entry();
+        }
     }
 
     public static void createAnAccount() throws ParseException {
@@ -75,7 +89,12 @@ public class MainMenu {
         String firstName = scanner.next();
         System.out.print("LastName: ");
         String lastName = scanner.next();
-        hotelResource.createACustomer(email, firstName, lastName);
+        try{
+            hotelResource.createACustomer(email, firstName, lastName);
+        } catch (Exception e) {
+            System.out.println("\nInvalid Email Address. Try again!\n\n");
+            entry();
+        }
         currentCustomer = new Customer(email, firstName, lastName);
         System.out.println("Account Created!");
         entry();

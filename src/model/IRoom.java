@@ -3,7 +3,7 @@ package model;
 public interface IRoom {
 
     public String getRoomNumber();
-    public String getRoomPrice();
+    public Double getRoomPrice();
     public String getRoomType();
     public boolean isFree();
 }

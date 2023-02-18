@@ -14,17 +14,17 @@ public class Room implements IRoom{
 
     @Override
     public String getRoomNumber() {
-        return null;
+        return roomNumber;
     }
 
     @Override
-    public String getRoomPrice() {
-        return null;
+    public Double getRoomPrice() {
+        return price;
     }
 
     @Override
     public String getRoomType() {
-        return null;
+        return roomType.getRoomType();
     }
 
     @Override

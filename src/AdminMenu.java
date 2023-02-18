@@ -1,4 +1,5 @@
 import api.AdminResource;
+import api.HotelResource;
 import model.Customer;
 import model.IRoom;
 import model.Room;
@@ -11,6 +12,7 @@ public class AdminMenu {
 
     Scanner scanner = new Scanner(System.in);
     AdminResource adminResource = AdminResource.getAdminResource();
+    HotelResource hotelResource = HotelResource.getHotelResource();
 
     public int adminMenu(){
         System.out.println("""
@@ -32,6 +34,7 @@ public class AdminMenu {
             case 3 -> seeAllReservations();
             case 4 -> addARoom();
             case 5 -> MainMenu.entry();
+            default -> entry();
         }
     }
 
@@ -42,9 +45,17 @@ public class AdminMenu {
         Double price = scanner.nextDouble();
         System.out.print("RoomType: ");
         String roomType = scanner.next();
-        IRoom room = new Room(roomNumber, price, RoomType.stringToRoomType(roomType));
-        adminResource.addRoom(room);
-        System.out.println("Account Created!");
+
+        IRoom foundRoom = hotelResource.getRoom(roomNumber);
+        if(foundRoom != null){
+            IRoom room = new Room(roomNumber, price, RoomType.stringToRoomType(roomType));
+            adminResource.addRoom(room);
+            System.out.println("\nRoom added!\n\n");
+        } else {
+            System.out.println("\nRoom number already exists!\n\n");
+            addARoom();
+        }
+
         entry();
     }
 
