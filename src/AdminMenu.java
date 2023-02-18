@@ -6,6 +6,7 @@ import model.Room;
 import model.RoomType;
 
 import java.text.ParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AdminMenu {
@@ -27,36 +28,48 @@ public class AdminMenu {
     }
 
     public void entry() throws ParseException {
-        int action = adminMenu();
-        switch (action){
-            case 1 -> seeAllCustomers();
-            case 2 -> seeAllRooms();
-            case 3 -> seeAllReservations();
-            case 4 -> addARoom();
-            case 5 -> MainMenu.entry();
-            default -> entry();
+        try {
+            int action = adminMenu();
+            switch (action){
+                case 1 -> seeAllCustomers();
+                case 2 -> seeAllRooms();
+                case 3 -> seeAllReservations();
+                case 4 -> addARoom();
+                case 5 -> MainMenu.entry();
+                default -> entry();
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid Input. Try again!");
         }
+
     }
 
     private void addARoom() throws ParseException {
-        System.out.print("Room Number: ");
-        String roomNumber = scanner.next();
-        System.out.print("Price: ");
-        Double price = scanner.nextDouble();
-        System.out.print("RoomType: ");
-        String roomType = scanner.next();
+        try {
+            System.out.print("Room Number: ");
+            String roomNumber = scanner.next();
+            System.out.print("Price: ");
+            Double price = scanner.nextDouble();
+            System.out.println("RoomType: ");
+            System.out.print("Type 's' for single & 'd' for double: ");
+            String roomType = scanner.next();
 
-        IRoom foundRoom = hotelResource.getRoom(roomNumber);
-        if(foundRoom != null){
-            IRoom room = new Room(roomNumber, price, RoomType.stringToRoomType(roomType));
-            adminResource.addRoom(room);
-            System.out.println("\nRoom added!\n\n");
-        } else {
-            System.out.println("\nRoom number already exists!\n\n");
+            IRoom foundRoom = hotelResource.getRoom(roomNumber);
+            if(foundRoom == null){
+                IRoom room = new Room(roomNumber, price, RoomType.stringToRoomType(roomType));
+                adminResource.addRoom(room);
+                System.out.println("\nRoom added!\n\n");
+            } else {
+                System.out.println("\nRoom number already exists!\n\n");
+                addARoom();
+            }
+
+            entry();
+        } catch (InputMismatchException e) {
+            System.out.println("\nInvalid Input, try again!\n\n");
+            scanner.next();
             addARoom();
         }
-
-        entry();
     }
 
     private void seeAllReservations() {

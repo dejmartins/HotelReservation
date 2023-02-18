@@ -4,9 +4,7 @@ import model.IRoom;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Collection;
-import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,15 +27,15 @@ public class MainMenu {
     }
 
     public static void entry() throws ParseException {
-        int action = mainMenu();
-        switch (action){
-            case 1 -> findAndReserveARoom();
-            case 2 -> seeMyReservations();
-            case 3 -> createAnAccount();
-            case 4 -> menu.entry();
-            case 5 -> System.exit(0);
-            default -> entry();
-        }
+            int action = mainMenu();
+            switch (action){
+                case 1 -> findAndReserveARoom();
+                case 2 -> seeMyReservations();
+                case 3 -> createAnAccount();
+                case 4 -> menu.entry();
+                case 5 -> System.exit(0);
+                default -> entry();
+            }
     }
 
     public static void findAndReserveARoom() throws ParseException {
